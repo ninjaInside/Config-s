@@ -8,7 +8,11 @@ const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 
 const paths = {
 	src: path.resolve(__dirname, 'src/assets/app/'),
-	dist: path.resolve(__dirname, 'dist/')
+	view: path.resolve(__dirname, 'dist/view'),
+	dist: path.resolve(__dirname, 'dist/assets'),
+	stylesAlias: path.resolve(__dirname, 'src/assets/app/styles'),
+	componentsAlias: path.resolve(__dirname, 'src/assets/app/components'),
+	services: path.resolve(__dirname, 'src/assets/app/services')
 }
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
@@ -24,7 +28,6 @@ module.exports = {
 	context: paths.src,
 	entry: {
 		app: 'app.js',
-		auth: 'auth.js',
 	},
 	output: {
 		path: paths.dist,
@@ -44,8 +47,6 @@ module.exports = {
 		  $: 'jquery',
 		  jQuery: 'jquery'
 		}),
-
-		new HardSourceWebpackPlugin(),
 	],
 
 	module: {
@@ -70,7 +71,8 @@ module.exports = {
 					options: {
 						sourceMap: true,
 						importLoaders: 1, 
-						modules: true
+						modules: true,
+						localsConvention: 'camelCase'
 					}
 				},
 				{
@@ -94,7 +96,11 @@ module.exports = {
 
 	resolve: {
 		modules: ["node_modules", paths.src],
-		extensions: ['.js', '.min.js']
+		alias: {
+			Styles: paths.stylesAlias,
+			Components: paths.componentsAlias,
+			Services: paths.services	
+		}
 	},
 
 	watch: NODE_ENV === 'development',
@@ -104,8 +110,10 @@ module.exports = {
 	},
 
 	devServer: {
-    	contentBase: paths.dist,
-    	port: 3000
+    	contentBase: paths.view,
+    	publicPath: '/',
+    	port: 3000,
+    	historyApiFallback: true
   }
 }
 	
