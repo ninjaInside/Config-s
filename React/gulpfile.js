@@ -4,9 +4,9 @@ let path = require('path')
 
 let paths = {
 	templates: {
-		src: path.join(__dirname, 'src/view/pages/*'),
-		our: path.join(__dirname, 'src/view/**/*'),
-		from: path.join(__dirname, 'dist/view')
+		src: path.join(__dirname, 'src/views/pages/*'),
+		our: path.join(__dirname, 'src/views/**/*'),
+		from: path.join(__dirname, 'dist/views')
 	}
 }
 
